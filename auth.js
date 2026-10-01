@@ -4,25 +4,25 @@
 // UI helper functions defined in script.js (global scope).
 // ============================================================
 
-import { initializeApp }                          from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getAnalytics }                           from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
+import { initializeApp }                          from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAnalytics }                           from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
 import {
     getAuth,
     GoogleAuthProvider,
     signInWithPopup,
     signOut,
     onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 // ── Firebase project config ─────────────────────────────────
 const firebaseConfig = {
-    apiKey:            "AIzaSyA2-_7YRyui4tcNYr9LhZAZlFhL9qMN1K0",
-    authDomain:        "lostaf-auth.firebaseapp.com",
-    projectId:         "lostaf-auth",
-    storageBucket:     "lostaf-auth.firebasestorage.app",
-    messagingSenderId: "335092192093",
-    appId:             "1:335092192093:web:eae66d63b172ed61120eb4",
-    measurementId:     "G-273RGRK1QN"
+    apiKey:            "AIzaSyDzRVBY_Vp-H9uCjfufwqImdwMlo3KBGOQ",
+    authDomain:        "lostaf-43955.firebaseapp.com",
+    projectId:         "lostaf-43955",
+    storageBucket:     "lostaf-43955.firebasestorage.app",
+    messagingSenderId: "462407779432",
+    appId:             "1:462407779432:web:8d9a80af2f0cc80d39e7dd",
+    measurementId:     "G-BFYC4P8ST3"
 };
 
 // ── Allowed email domain ─────────────────────────────────────
