@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LostAF — Campus Lost & Found Portal</title>
+
+    <!-- Favicon -->
+    <link rel="icon"            type="image/svg+xml" href="resources/favicon.svg">
+    <link rel="alternate icon"  type="image/x-icon"  href="resources/favicon.svg">
+    <meta name="theme-color" content="#0a0a0f">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Background layers -->
+    <video class="bg-layer" autoplay muted loop playsinline poster="resources/cgu_poster.jpg">
+        <source src="resources/cgu_vid.mp4" type="video/mp4">
+    </video>
+    <div class="bg-overlay"></div>
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- =================== NAVBAR =================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo" onclick="navigate('landing')">Lost<span style="color:var(--accent-orange)">AF</span></div>
+        <a href="https://cgu-odisha.ac.in/" target="_blank" class="nav-cgu-link" style="display:flex;align-items:center;margin-right:auto;margin-left:16px;"><img src="resources/cgu_logo.png" alt="CGU Logo" class="nav-cgu-logo" style="height:55px; width: 55px; margin-left: 20px;"></a>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a onclick="navigate('landing')" class="active" data-page="landing">Home</a></li>
+            <li><a onclick="navigate('feed')" data-page="feed">Dashboard</a></li>
+            <li><a onclick="navigate('report')" data-page="report">Report Item</a></li>
+            <li><a onclick="navigate('about')" data-page="about">About</a></li>
+        </ul>
+
+        <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </div>
+
+        <!-- Auth Area -->
+        <div class="nav-auth" id="navAuthArea">
+            <div class="nav-tooltip-wrap">
+                <button class="nav-login-btn" id="navLoginBtn" onclick="openAuthModal()">
+                    <svg viewBox="0 0 24 24" width="16" height="16"><path fill="white" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="white" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="white" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="white" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    Login
+                </button>
+                <span class="nav-tooltip">College mails only</span>
+            </div>
+            <div class="nav-user" id="navUserArea" style="display:none;">
+                <div class="nav-avatar" id="navUserAvatar"></div>
+                <span class="nav-username" id="navUserName"></span>
+                <button class="nav-signout" onclick="logout()">Sign out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- =================== LANDING PAGE =================== -->
+    <section class="landing active" id="page-landing" style="padding-top: 60px;">
+        <div class="landing-content">
+            <a  href="https://cgu-odisha.ac.in/" target="_blank"><div class="landing-badge">
+                C. V. Raman Global University
+            </div></a>
+
+            <h1 class="landing-title">
+                <span class="lost">Lost</span><span class="af">AF</span>
+            </h1>
+
+            <p class="landing-subtitle">
+                The smartest way to find what you've lost on campus — or return what you've found. Powered by Trust.
+            </p>
+
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="feature-title">Secure<span>🔒</span></div>
+                    <div class="feature-subtitle">Verified student access only</div>
+                </div>
+                <div class="stat-item">
+                    <div class="feature-title">Local<span>📍</span></div>
+                    <div class="feature-subtitle">Exclusive to the CGU campus</div>
+                </div>
+                <div class="stat-item">
+                    <div class="feature-title">Fast<span>⚡</span></div>
+                    <div class="feature-subtitle">Quick and direct communication</div>
+                </div>
+            </div>
+
+            <div class="cta-container">
+                <button class="cta-btn cta-lost" onclick="navigate('report', 'lost')">
+                    <span>I Lost Something</span>
+                </button>
+                <button class="cta-btn cta-found" onclick="navigate('report', 'found')">
+                    <span>I Found Something</span>
+                </button>
+            </div>
+
+            <div style="margin-top:10px;">
+                <a onclick="navigate('feed')" style="color:var(--text-muted);font-size:0.85rem;cursor:pointer;text-decoration:underline;text-underline-offset:4px;">
+                    Browse all items →
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- =================== FEED / DASHBOARD PAGE =================== -->
+    <section class="page" id="page-feed">
+        <div class="feed-search-bar" id="navSearchWrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="smartSearch" placeholder="AI Smart Search... try 'blue bottle'" oninput="handleSmartSearch(this.value)">
+        </div>
+        <div class="dashboard-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar glass">
+
+                <!-- Campus Map -->
+                <div class="campus-map-container">
+                    <h4>📍 Real Campus Map</h4>
+                    <svg class="campus-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                        <path class="road-line" d="M 100 380 L 100 270 C 100 220 120 190 170 170" /> <circle class="road-line" cx="200" cy="150" r="35" /> <path class="road-line" d="M 170 130 C 120 90 80 100 40 100" /> <path class="road-line" d="M 90 100 L 90 40 L 150 40" /> <path class="road-line" d="M 225 125 Q 270 70 340 50" />
+                        <path class="road-line" d="M 235 150 C 290 160 330 140 380 140" /> <path class="road-line" d="M 225 175 C 270 210 290 260 210 360" /> <path class="road-line" d="M 275 250 L 330 220" /> <path class="road-line" d="M 100 270 L 260 230" />
+                        <path class="road-inner" d="M 100 380 L 100 270 C 100 220 120 190 170 170" />
+                        <circle class="road-inner" cx="200" cy="150" r="35" />
+                        <path class="road-inner" d="M 170 130 C 120 90 80 100 40 100" />
+                        <path class="road-inner" d="M 90 100 L 90 40 L 150 40" />
+                        <path class="road-inner" d="M 225 125 Q 270 70 340 50" />
+                        <path class="road-inner" d="M 235 150 C 290 160 330 140 380 140" />
+                        <path class="road-inner" d="M 225 175 C 270 210 290 260 210 360" />
+                        <path class="road-inner" d="M 275 250 L 330 220" />
+                        <path class="road-inner" d="M 100 270 L 260 230" />
+
+                        <rect class="building" data-zone="Pharmacy" x="20" y="50" width="55" height="40" rx="6"/>
+                        <text class="building-label" x="47" y="73">Pharmacy</text>
+
+                        <rect class="building" data-zone="BS Building" x="90" y="10" width="50" height="35" rx="6" transform="rotate(-15 90 10)"/>
+                        <text class="building-label" x="115" y="32">BS</text>
+
+                        <polygon class="building" data-zone="CS Building" points="160,20 195,60 135,70"/>
+                        <text class="building-label" x="160" y="55">CS</text>
+
+                        <rect class="building" data-zone="EEE Block" x="230" y="20" width="60" height="35" rx="6" transform="rotate(10 230 20)"/>
+                        <text class="building-label" x="260" y="42">EEE</text>
+
+                        <rect class="building" data-zone="ETC Block" x="250" y="80" width="80" height="30" rx="15" transform="rotate(40 250 80)"/>
+                        <text class="building-label" x="290" y="100">E.T.C.</text>
+
+                        <rect class="building" data-zone="Temple Lawn" x="330" y="90" width="60" height="40" rx="6"/>
+                        <text class="building-label" x="360" y="114">Temple Lawn</text>
+
+                        <circle class="building" data-zone="CSE Lawn" cx="200" cy="150" r="24"/>
+                        <text class="building-label" x="200" y="154">CSE Lawn</text>
+
+                        <rect class="building" data-zone="Bosch COE" x="10" y="150" width="55" height="40" rx="6"/>
+                        <text class="building-label" x="37" y="174">Bosch COE</text>
+
+                        <path class="building" data-zone="Mechanical" d="M 110 180 L 160 180 Q 170 200 160 220 L 100 220 Q 90 200 110 180 Z"/>
+                        <text class="building-label" x="130" y="204">Mechanical</text>
+
+                        <rect class="building" data-zone="Mech Lawn" x="190" y="195" width="55" height="35" rx="6"/>
+                        <text class="building-label" x="217" y="216">Mech Lawn</text>
+
+                        <rect class="building" data-zone="Civil Lawn" x="175" y="260" width="55" height="40" rx="6"/>
+                        <text class="building-label" x="202" y="284">Civil Lawn</text>
+
+                        <rect class="building" data-zone="Library" x="310" y="180" width="65" height="45" rx="6"/>
+                        <text class="building-label" x="342" y="206">Library</text>
+
+                        <rect class="building" data-zone="Management" x="270" y="260" width="80" height="45" rx="6"/>
+                        <text class="building-label" x="310" y="286">Management</text>
+
+                        <rect class="building" data-zone="MBA Block" x="200" y="320" width="65" height="45" rx="6" transform="rotate(-15 200 320)"/>
+                        <text class="building-label" x="232" y="346">MBA Block</text>
+
+                        <rect class="building" data-zone="Main Gate" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.2)" x="85" y="380" width="30" height="15" rx="2"/>
+                        <text class="building-label" style="font-size: 8px;" x="100" y="390">Main Gate</text>
+
+                        <rect fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.2)" x="330" y="40" width="30" height="15" rx="2" transform="rotate(-20 330 40)"/>
+                        <text class="building-label" style="font-size: 8px;" x="345" y="50">Back Gate</text>
+                    </svg>
+                </div>
+
+                <!-- Zone Filters -->
+                <div class="sidebar-section">
+                    <h3>🏫 Interactive Zones</h3>
+                    <div class="campus-zones">
+                        <button class="zone-btn active full-width" data-zone="All" onclick="filterByZone('All', this)">
+                            <span class="zone-dot" style="background:var(--accent-blue)"></span>
+                            Show All Locations
+                        </button>
+                        <button class="zone-btn" data-zone="Pharmacy" onclick="filterByZone('Pharmacy', this)">
+                            <span class="zone-dot" style="background:#ff6b6b"></span>
+                            Pharmacy Block
+                        </button>
+                        <button class="zone-btn" data-zone="BS Building" onclick="filterByZone('BS Building', this)">
+                            <span class="zone-dot" style="background:#feca57"></span>
+                            BS Building
+                        </button>
+                        <button class="zone-btn" data-zone="CS Building" onclick="filterByZone('CS Building', this)">
+                            <span class="zone-dot" style="background:#48dbfb"></span>
+                            C.S. Building
+                        </button>
+                        <button class="zone-btn" data-zone="EEE Block" onclick="filterByZone('EEE Block', this)">
+                            <span class="zone-dot" style="background:#ff9f43"></span>
+                            EEE Building
+                        </button>
+                        <button class="zone-btn" data-zone="ETC Block" onclick="filterByZone('ETC Block', this)">
+                            <span class="zone-dot" style="background:#0abde3"></span>
+                            E.T.C. Building
+                        </button>
+                        <button class="zone-btn" data-zone="CSE Lawn" onclick="filterByZone('CSE Lawn', this)">
+                            <span class="zone-dot" style="background:#00d2d3"></span>
+                            CSE Lawn
+                        </button>
+                        <button class="zone-btn" data-zone="Bosch COE" onclick="filterByZone('Bosch COE', this)">
+                            <span class="zone-dot" style="background:#ff9ff3"></span>
+                            Bosch COE
+                        </button>
+                        <button class="zone-btn" data-zone="Mechanical" onclick="filterByZone('Mechanical', this)">
+                            <span class="zone-dot" style="background:#54a0ff"></span>
+                            Mechanical Block
+                        </button>
+                        <button class="zone-btn" data-zone="Mech Lawn" onclick="filterByZone('Mech Lawn', this)">
+                            <span class="zone-dot" style="background:#1dd1a1"></span>
+                            Mech Lawn
+                        </button>
+                        <button class="zone-btn" data-zone="Civil Lawn" onclick="filterByZone('Civil Lawn', this)">
+                            <span class="zone-dot" style="background:#f368e0"></span>
+                            Civil Lawn
+                        </button>
+                        <button class="zone-btn" data-zone="Temple Lawn" onclick="filterByZone('Temple Lawn', this)">
+                            <span class="zone-dot" style="background:#c8d6e5"></span>
+                            Temple Lawn
+                        </button>
+                        <button class="zone-btn" data-zone="Library" onclick="filterByZone('Library', this)">
+                            <span class="zone-dot" style="background:#9c88ff"></span>
+                            Library Central
+                        </button>
+                        <button class="zone-btn" data-zone="Management" onclick="filterByZone('Management', this)">
+                            <span class="zone-dot" style="background:#e1b12c"></span>
+                            Management Block
+                        </button>
+                        <button class="zone-btn" data-zone="MBA Block" onclick="filterByZone('MBA Block', this)">
+                            <span class="zone-dot" style="background:#4cd137"></span>
+                            MBA Building
+                        </button>
+                        <button class="zone-btn" data-zone="Main Gate" onclick="filterByZone('Main Gate', this)">
+                            <span class="zone-dot" style="background:#a0a0a0"></span>
+                            Main Gate
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="sidebar-section">
+                    <h3>Categories</h3>
+                    <div class="filter-chips">
+                        <button class="filter-chip active" onclick="filterByCategory('All', this)">All</button>
+                        <button class="filter-chip" onclick="filterByCategory('Electronics', this)">Electronics</button>
+                        <button class="filter-chip" onclick="filterByCategory('ID Card', this)">ID Card</button>
+                        <button class="filter-chip" onclick="filterByCategory('Documents & Notebooks', this)">Documents & Notebooks</button>
+                        <button class="filter-chip" onclick="filterByCategory('Bags & Wallets', this)">Bags & Wallets</button>
+                        <button class="filter-chip" onclick="filterByCategory('Accessories', this)">Accessories</button>
+                        <button class="filter-chip" onclick="filterByCategory('Keys & Small Items', this)">Keys & Small Items</button>
+                        <button class="filter-chip" onclick="filterByCategory('Daily Use Items', this)">Daily Use Items</button>
+                        <button class="filter-chip" onclick="showHeartAlert()">Heart</button>
+                        <button class="filter-chip" onclick="filterByCategory('Other', this)">Other</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Feed Content -->
+            <div class="feed-content">
+                <div class="feed-header">
+                    <h2 class="feed-title">Items Feed</h2>
+                    <div class="feed-tabs">
+                        <button class="feed-tab active" onclick="filterByType('all', this)">All</button>
+                        <button class="feed-tab" onclick="filterByType('lost', this)">🔴 Lost</button>
+                        <button class="feed-tab" onclick="filterByType('found', this)">🟢 Found</button>
+                    </div>
+                </div>
+
+                <div class="masonry-grid" id="feedGrid">
+                    <!-- JS populated -->
+                </div>
+
+                <div class="no-results" id="noResults" style="display:none;">
+                    <span class="no-icon">🔍</span>
+                    <h3>No items match your filters</h3>
+                    <p>Try adjusting your search or filters</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== REPORT PAGE =================== -->
+    <section class="report-page" id="page-report">
+        <div class="report-container glass-strong">
+            <button class="report-close-btn" onclick="navigate('landing')" title="Back to Home">&times;</button>
+            <div class="report-header">
+                <h1>Report an Item</h1>
+                <p>Help the campus community by reporting a lost or found item</p>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="step-progress" id="stepProgress">
+                <div class="step-dot active" data-step="1">1</div>
+                <div class="step-line"></div>
+                <div class="step-dot" data-step="2">2</div>
+                <div class="step-line"></div>
+                <div class="step-dot" data-step="3">3</div>
+            </div>
+
+            <!-- Step 1: Type & Basic Info -->
+            <div class="form-step active" id="formStep1">
+                <div class="type-toggle">
+                    <div class="type-option lost-type" onclick="selectType('lost', this)" id="typeLost">
+                        <span class="type-emoji">😰</span>
+                        <span class="type-label">I Lost It</span>
+                    </div>
+                    <div class="type-option found-type" onclick="selectType('found', this)" id="typeFound">
+                        <span class="type-emoji">🦸🏻</span>
+                        <span class="type-label">I Found It</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Item Name *</label>
+                    <input type="text" class="form-input" id="itemName" placeholder="e.g., Blue Hydroflask, AirPods Pro Case">
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select class="form-select" id="itemCategory" onchange="if(this.value==='Heart'){showHeartAlert();this.value='';}">
+                        <option value="">Select a category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="ID Card">ID Card</option>
+                        <option value="Documents & Notebooks">Documents & Notebooks</option>
+                        <option value="Bags & Wallets">Bags & Wallets</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Keys & Small Items">Keys & Small Items</option>
+                        <option value="Daily Use Items">Daily Use Items</option>
+                        <option value="Heart">Heart</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" class="form-input" id="itemDate">
+                </div>
+
+                <div class="form-actions" style="justify-content:flex-end;">
+                    <button class="btn btn-primary" onclick="nextStep(2)">
+                        Continue
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Location & Description -->
+            <div class="form-step" id="formStep2">
+                <div class="form-group">
+                    <label>Last Seen / Found Location *</label>
+                    <div class="location-grid">
+                        <div class="location-option" onclick="selectLocation('Pharmacy', this)">Pharmacy Block</div>
+                        <div class="location-option" onclick="selectLocation('BS Building', this)">BS Building</div>
+                        <div class="location-option" onclick="selectLocation('CS Building', this)">C.S. Building</div>
+                        <div class="location-option" onclick="selectLocation('EEE Block', this)">EEE Building</div>
+                        <div class="location-option" onclick="selectLocation('ETC Block', this)">E.T.C. Building</div>
+                        <div class="location-option" onclick="selectLocation('CSE Lawn', this)">CSE Lawn</div>
+                        <div class="location-option" onclick="selectLocation('Bosch COE', this)">Bosch COE</div>
+                        <div class="location-option" onclick="selectLocation('Mechanical', this)">Mechanical Block</div>
+                        <div class="location-option" onclick="selectLocation('Mech Lawn', this)">Mech Lawn</div>
+                        <div class="location-option" onclick="selectLocation('Civil Lawn', this)">Civil Lawn</div>
+                        <div class="location-option" onclick="selectLocation('Temple Lawn', this)">Temple Lawn</div>
+                        <div class="location-option" onclick="selectLocation('Library', this)">Library Central</div>
+                        <div class="location-option" onclick="selectLocation('Management', this)">Management Block</div>
+                        <div class="location-option" onclick="selectLocation('MBA Block', this)">MBA Building</div>
+                        <div class="location-option" onclick="selectLocation('Main Gate', this)">Main Gate</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-textarea" id="itemDescription" placeholder="Describe the item in detail — color, brand, unique marks, contents, etc."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-ghost" onclick="prevStep(1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        Back
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep(3)">
+                        Continue
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Image & Submit -->
+            <div class="form-step" id="formStep3">
+
+                <!-- Logged-in user summary -->
+                <div class="auth-reporter-badge" id="reporterBadge">
+                    <div class="auth-reporter-avatar" id="reporterAvatar"></div>
+                    <div class="auth-reporter-info">
+                        <span class="auth-reporter-name" id="reporterBadgeName"></span>
+                        <span class="auth-reporter-email" id="reporterBadgeEmail"></span>
+                    </div>
+                    <span class="auth-reporter-label">Posting as</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Images (Optional — Max 4)</label>
+                    <div class="upload-zone" id="uploadZone">
+                        <input type="file" id="imageUpload" accept="image/*" multiple onchange="handleImageUpload(event)">
+                        <span class="upload-icon">📸</span>
+                        <div class="upload-text">Drag & drop images or click to browse</div>
+                        <div class="upload-hint">JPG, PNG, WEBP — Max 4 images, 5MB each</div>
+                    </div>
+                    <div class="upload-actions">
+                        <button type="button" class="camera-capture-btn" onclick="openCamera()">
+                            <span class="camera-icon">📷</span>
+                            <span>Take Photo</span>
+                        </button>
+                        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="handleImageUpload(event)">
+                    </div>
+                    <div class="upload-preview-grid" id="uploadPreviewGrid">
+                        <!-- JS populated: thumbnail cards with remove buttons -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" class="form-input" id="reporterName" placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Email *</label>
+                    <input type="email" class="form-input" id="reporterEmail" placeholder="your.email@cgu-odisha.ac.in" readonly>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-ghost" onclick="prevStep(2)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        Back
+                    </button>
+                    <button class="btn btn-success" onclick="submitReport()">
+                        🚀 Submit Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Success Screen -->
+            <div class="success-screen" id="successScreen">
+                <span class="success-icon">🎉</span>
+                <h2>Report Submitted!</h2>
+                <p>Your item has been posted to the feed. We'll notify you if there's a match!</p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="navigate('feed')">View Feed</button>
+                    <button class="btn btn-ghost" onclick="resetForm()">Report Another</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== ABOUT PAGE =================== -->
+    <section class="about-page" id="page-about">
+        <div class="about-hero">
+            <div class="hero-tag">
+                <span></span> ABOUT LOSTAF
+            </div>
+            <h1>A BETTER WAY TO REUNITE LOST ITEMS</h1>
+        </div>
+
+        <div class="about-section">
+            <div class="profile-card glass-strong">
+                <div class="profile-content">
+                    <div class="about-intro">
+                        <h2 class="dev-name">LostAF</h2>
+                        <p class="dev-title">A campus-focused lost and found portal</p>
+                        <p>LostAF helps the C. V. Raman Global University community reconnect people with belongings misplaced on campus.</p>
+                    </div>
+
+                    <div class="about-features">
+                        <article class="about-feature">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <h3>Find a match</h3>
+                            <p>Search listings and filter by item category or campus zone.</p>
+                        </article>
+                        <article class="about-feature">
+                            <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                            <h3>Share a report</h3>
+                            <p>Post a lost or found item with useful details and an optional photo.</p>
+                        </article>
+                        <article class="about-feature">
+                            <i class="fa-solid fa-handshake" aria-hidden="true"></i>
+                            <h3>Reunite</h3>
+                            <p>Contact the reporter and mark the item reunited once it is returned.</p>
+                        </article>
+                    </div>
+
+                    <div class="social-links-about">
+                        <a href="#" onclick="navigate('feed'); return false;" class="social-btn-about github">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            Browse Items
+                        </a>
+                        <a href="#" onclick="navigate('report'); return false;" class="social-btn-about email">
+                            <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+                            Report an Item
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- =================== FIXED FOOTER =================== -->
+    <footer class="site-footer">
+        <span class="footer-brand">@LostAF</span>
+        <span class="footer-year">2026</span>
+        <span class="footer-divider">|</span>
+        <span class="footer-tagline">We can help you find your lost items, but not your lost motivation👉👈</span>
+    </footer>
+
+    <!-- =================== REUNITE MODAL =================== -->
+    <div class="modal-overlay" id="reuniteModal">
+        <div class="modal glass-strong">
+            <h3>🎊 Confirm Reunion!</h3>
+            <p>Amazing! You're confirming that this item has been successfully returned to its owner. This will be celebrated!</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-success" onclick="confirmReunite()">🎉 Yes, Reunited!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================== ITEM DETAIL MODAL =================== -->
+    <div class="modal-overlay" id="itemDetailModal" onclick="closeItemDetail()">
+        <div class="modal modal-detail glass-strong" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeItemDetail()">&times;</button>
+            <div class="detail-gallery" id="detailGallery">
+                <img class="modal-detail-img" id="detailImg" src="" alt="">
+                <button class="gallery-nav gallery-prev" id="galleryPrev" onclick="galleryNav(-1)">&#8249;</button>
+                <button class="gallery-nav gallery-next" id="galleryNext" onclick="galleryNav(1)">&#8250;</button>
+                <div class="gallery-dots" id="galleryDots"></div>
+            </div>
+            <div class="modal-detail-body">
+                <span class="item-card-type" id="detailType"></span>
+                <h2 class="modal-detail-title" id="detailTitle"></h2>
+                <div class="modal-detail-fields">
+                    <div class="modal-detail-field">
+                        <span class="modal-field-label">Description</span>
+                        <span class="modal-field-value" id="detailDesc"></span>
+                    </div>
+                    <div class="modal-detail-field">
+                        <span class="modal-field-label">Category</span>
+                        <span class="modal-field-value" id="detailCategory"></span>
+                    </div>
+                    <div class="modal-detail-field">
+                        <span class="modal-field-label">Location</span>
+                        <span class="modal-field-value" id="detailLocation"></span>
+                    </div>
+                    <div class="modal-detail-field">
+                        <span class="modal-field-label">Date</span>
+                        <span class="modal-field-value" id="detailDate"></span>
+                    </div>
+                    <div class="modal-detail-field">
+                        <span class="modal-field-label">Contact Email</span>
+                        <a class="modal-field-value" id="detailEmail"></a>
+                    </div>
+                </div>
+                <div class="modal-detail-footer">
+                    <div class="item-card-user">
+                        <div class="item-card-avatar" id="detailAvatar"></div>
+                        <span class="item-card-username" id="detailUser"></span>
+                    </div>
+                    <button class="btn btn-success" id="detailReuniteBtn">✨ Reunite</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =================== AUTH MODAL =================== -->
+    <div class="modal-overlay" id="authModal" onclick="closeAuthModal()">
+        <div class="modal auth-modal glass-strong" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-modal-icon">🎓</div>
+            <h3 class="auth-modal-title">Sign in to continue</h3>
+            <p class="auth-modal-desc">
+                Reporting items requires a verified college account.<br>
+                Only <span class="auth-domain-badge">@cgu-odisha.ac.in</span> addresses are allowed.
+            </p>
+            <button class="btn-google-signin" onclick="loginWithGoogle()">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+            </button>
+            <p class="auth-modal-note">Use your college Google account. Personal Gmail accounts will be denied.</p>
+        </div>
+    </div>
+
+    <!-- Camera Capture Modal -->
+    <div class="modal-overlay" id="cameraModal">
+        <div class="modal camera-modal glass-strong" onclick="event.stopPropagation()">
+            <div class="camera-header">
+                <h3>📷 Take Photo</h3>
+                <button class="modal-close-btn" onclick="closeCamera()">&times;</button>
+            </div>
+            <div class="camera-viewfinder">
+                <video id="cameraVideo" autoplay playsinline></video>
+                <canvas id="cameraCanvas" style="display:none"></canvas>
+                <img id="cameraPreview" style="display:none" alt="Captured photo">
+            </div>
+            <div class="camera-controls">
+                <button class="camera-btn camera-switch" id="cameraSwitchBtn" onclick="switchCamera()" title="Switch Camera">🔄</button>
+                <button class="camera-btn camera-shutter" id="cameraShutterBtn" onclick="capturePhoto()">
+                    <span class="shutter-ring"></span>
+                </button>
+                <div class="camera-btn camera-placeholder"></div>
+            </div>
+            <div class="camera-actions" id="cameraActions" style="display:none">
+                <button class="btn-retake" onclick="retakePhoto()">↻ Retake</button>
+                <button class="btn-use-photo" onclick="usePhoto()">✓ Use Photo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Authentication (modular SDK) -->
+    <script type="module" src="auth.js"></script>
+    <script src="script.js"></script>
+</html>

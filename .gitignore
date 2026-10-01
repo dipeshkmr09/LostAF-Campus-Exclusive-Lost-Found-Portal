@@ -1,0 +1,34 @@
+# ── Secrets & credentials ────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# Firebase service account keys (private RSA key — never commit)
+*firebase-adminsdk*.json
+*serviceAccountKey*.json
+lostaf-auth-firebase-adminsdk-fbsvc-91da7c370f.json
+
+# ── Python ───────────────────────────────────────────────────
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# ── OS clutter ───────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor / IDE ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log

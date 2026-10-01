@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="geometricPrecision">
+  <defs>
+    <!-- Matches the landing title .af gradient exactly -->
+    <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#ff4d4d"/>
+      <stop offset="50%"  stop-color="#ff8c42"/>
+      <stop offset="100%" stop-color="#ffd740"/>
+    </linearGradient>
+    <!-- Subtle red glow behind the whole icon -->
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#ff4d4d" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ff4d4d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background: same near-black as the site body -->
+  <rect width="32" height="32" rx="7" fill="#0a0a0f"/>
+
+  <!-- Subtle inner glow -->
+  <rect width="32" height="32" rx="7" fill="url(#glow)"/>
+
+  <!-- Thin gradient border -->
+  <rect width="31" height="31" x="0.5" y="0.5" rx="6.5" fill="none"
+        stroke="url(#brand)" stroke-width="0.75" opacity="0.55"/>
+
+  <!--
+    Typography mirrors the landing title:
+      "L"  — white, heavy weight  (= the "Lost" part)
+      "AF" — brand gradient        (= the "AF" part)
+    The two texts sit on the same baseline at y=23.
+  -->
+  <text x="3" y="23"
+        font-family="'Space Grotesk','system-ui','-apple-system','sans-serif'"
+        font-weight="800"
+        font-size="19"
+        letter-spacing="-1"
+        fill="rgba(255,255,255,0.93)">L</text>
+
+  <text x="14.5" y="23"
+        font-family="'Space Grotesk','system-ui','-apple-system','sans-serif'"
+        font-weight="800"
+        font-size="13"
+        letter-spacing="-0.5"
+        fill="url(#brand)">AF</text>
+</svg>

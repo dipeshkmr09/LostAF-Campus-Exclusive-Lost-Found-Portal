@@ -1,0 +1,5 @@
+flask
+flask-cors
+psycopg2-binary
+firebase-admin
+python-dotenv
