@@ -176,7 +176,7 @@ Pharmacy · BS Building · CS Building · EEE Block · ETC Block · CSE Lawn · 
 
 ## Built By
 
-**Abhishek Mandal** — B.Tech student, C. V. Raman Global University
+**Dipesh kumar** — B.Tech student, C. V. Raman Global University
 
 Built because campus WhatsApp "Found in BS204" messages go ignored. Wanted something actually useful that doesn't look like a government website.
 
